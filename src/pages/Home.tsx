@@ -77,7 +77,7 @@ const AGENT_ID = '69704e18d6d0dcaec1115d28'
 const STORAGE_KEY = 'chat_widget_state'
 const MAX_CHAR_LIMIT = 250
 
-const INITIAL_GREETING = "Hi! Welcome to our website. I'm here to help you navigate and answer any questions you might have. What would you like to know about?"
+const INITIAL_GREETING = "Hey there! Ready to discover how we can help you today? I can show you our services, pricing, availability, or help you book an appointment. What brings you here?"
 
 // =============================================================================
 // Helper Functions
