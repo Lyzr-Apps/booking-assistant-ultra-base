@@ -1,0 +1,73 @@
+{
+  "workflow_id": "website_marketing_chatbot",
+  "workflow_name": "Website Marketing Chatbot",
+  "description": "Single-agent workflow for engaging website visitors with AI-powered marketing assistant",
+  "created_at": "2026-01-21T00:00:00Z",
+  "nodes": [
+    {
+      "id": "user_input",
+      "type": "Input",
+      "label": "Visitor Chat Message",
+      "nodeCategory": "input",
+      "position": {
+        "x": 100,
+        "y": 200
+      }
+    },
+    {
+      "id": "marketing_agent",
+      "type": "Agent",
+      "label": "Website Marketing Agent",
+      "nodeCategory": "agent",
+      "agent_id": "69704e18d6d0dcaec1115d28",
+      "position": {
+        "x": 400,
+        "y": 200
+      }
+    },
+    {
+      "id": "response_output",
+      "type": "Output",
+      "label": "Conversational Response",
+      "nodeCategory": "end",
+      "position": {
+        "x": 700,
+        "y": 200
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "user_input",
+      "target": "marketing_agent"
+    },
+    {
+      "source": "marketing_agent",
+      "target": "response_output"
+    }
+  ],
+  "agents": [
+    {
+      "agent_id": "69704e18d6d0dcaec1115d28",
+      "name": "Website Marketing Agent",
+      "type": "single",
+      "description": "Engages website visitors, answers questions about services/pricing/availability using business knowledge base, qualifies leads, and guides prospects toward completing bookings with persuasive yet helpful responses",
+      "provider": "OpenAI",
+      "model": "gpt-4.1",
+      "temperature": 0.5,
+      "top_p": 0.95,
+      "has_knowledge_base": true,
+      "rag_id": "69704e0542263af0ef9d2c39",
+      "rag_name": "dockedaibusinessinformationru1x",
+      "trigger": "Chat message submission on Website Chat Widget"
+    }
+  ],
+  "knowledge_bases": [
+    {
+      "rag_id": "69704e0542263af0ef9d2c39",
+      "name": "DockedAI Business Information",
+      "rag_name": "dockedaibusinessinformationru1x",
+      "description": "Contains business information, FAQs, services, pricing, and availability details for the website marketing chatbot"
+    }
+  ]
+}

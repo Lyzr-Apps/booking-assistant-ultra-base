@@ -1,0 +1,71 @@
+{
+  "agent_name": "Website Marketing Agent",
+  "agent_id": "69704e18d6d0dcaec1115d28",
+  "agent_purpose": "assistant",
+  "description": "Returns conversational responses with lead qualification data and suggested actions for website visitors",
+  "response_schema": {
+    "status": "string",
+    "result": {
+      "message": "string",
+      "lead_qualification": {
+        "is_qualified": "boolean",
+        "interest_level": "string",
+        "next_action": "string"
+      },
+      "sources_used": [
+        "any"
+      ],
+      "suggested_actions": [
+        "string"
+      ]
+    },
+    "metadata": {
+      "agent_name": "string",
+      "timestamp": "string"
+    }
+  },
+  "example_response": {
+    "status": "success",
+    "result": {
+      "message": "Thank you for your interest! Let me check our availability for this weekend. Could you please share what specific service you\u2019re looking for, so I can confirm the most accurate booking options for you? Once I know more, I can help you reserve a spot or suggest the best next steps.",
+      "lead_qualification": {
+        "is_qualified": true,
+        "interest_level": "high",
+        "next_action": "book_consultation"
+      },
+      "sources_used": [],
+      "suggested_actions": [
+        "Share your service needs",
+        "Proceed to booking"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Website Marketing Agent",
+      "timestamp": "2024-06-16T16:46:05Z"
+    }
+  },
+  "is_actual_tested": true,
+  "test_timestamp": "2026-01-21T03:56:01.793853",
+  "test_message_used": "Hello, provide a sample response",
+  "actual_test_response": {
+    "status": "success",
+    "result": {
+      "message": "Thank you for your interest! Let me check our availability for this weekend. Could you please share what specific service you\u2019re looking for, so I can confirm the most accurate booking options for you? Once I know more, I can help you reserve a spot or suggest the best next steps.",
+      "lead_qualification": {
+        "is_qualified": true,
+        "interest_level": "high",
+        "next_action": "book_consultation"
+      },
+      "sources_used": [],
+      "suggested_actions": [
+        "Share your service needs",
+        "Proceed to booking"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Website Marketing Agent",
+      "timestamp": "2024-06-16T16:46:05Z"
+    }
+  },
+  "test_passed": true
+}

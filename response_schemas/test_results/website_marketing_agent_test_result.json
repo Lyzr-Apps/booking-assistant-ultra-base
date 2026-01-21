@@ -1,0 +1,30 @@
+{
+  "agent_name": "Website Marketing Agent",
+  "agent_id": "69704e18d6d0dcaec1115d28",
+  "test_message": "Do you have availability this weekend?",
+  "expected_purpose": "assistant",
+  "timestamp": "2026-01-21T03:56:01.792286",
+  "is_valid_json": true,
+  "validation_errors": [],
+  "actual_response": {
+    "status": "success",
+    "result": {
+      "message": "Thank you for your interest! Let me check our availability for this weekend. Could you please share what specific service you\u2019re looking for, so I can confirm the most accurate booking options for you? Once I know more, I can help you reserve a spot or suggest the best next steps.",
+      "lead_qualification": {
+        "is_qualified": true,
+        "interest_level": "high",
+        "next_action": "book_consultation"
+      },
+      "sources_used": [],
+      "suggested_actions": [
+        "Share your service needs",
+        "Proceed to booking"
+      ]
+    },
+    "metadata": {
+      "agent_name": "Website Marketing Agent",
+      "timestamp": "2024-06-16T16:46:05Z"
+    }
+  },
+  "raw_response": "{\n  \"status\": \"success\",\n  \"result\": {\n    \"message\": \"Thank you for your interest! Let me check our availability for this weekend. Could you please share what specific service you\u2019re looking for, so I can confirm the most accurate booking options for you? Once I know more, I can help you reserve a spot or suggest the best next steps.\",\n    \"lead_qualification\": {\n      \"is_qualified\": true,\n      \"interest_level\": \"high\",\n      \"next_action\": \"book_consultation\"\n    },\n    \"sources_used\": [],\n    \"suggested_actions\": [\"Share your service needs\", \"Proceed to booking\"]\n  },\n  \"metadata\": {\n    \"agent_name\": \"Website Marketing Agent\",\n    \"timestamp\": \"2024-06-16T16:46:05Z\"\n  }\n}"
+}
