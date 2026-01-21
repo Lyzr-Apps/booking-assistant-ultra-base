@@ -75,10 +75,9 @@ interface ChatState {
 
 const AGENT_ID = '69704e18d6d0dcaec1115d28'
 const STORAGE_KEY = 'chat_widget_state'
-const AUTO_GREETING_DELAY = 5000 // 5 seconds
 const MAX_CHAR_LIMIT = 250
 
-const INITIAL_GREETING = "Hi! Welcome to our website. I'm here to help you learn about our services, pricing, and availability. How can I assist you today?"
+const INITIAL_GREETING = "Hi! Welcome to our website. I'm here to help you navigate and answer any questions you might have. What would you like to know about?"
 
 // =============================================================================
 // Helper Functions
@@ -227,14 +226,23 @@ function QuickReplyButtons({
 
 function BookingCTA({
   message,
-  qualification
+  qualification,
+  onDismiss
 }: {
   message: string
   qualification?: LeadQualification
+  onDismiss: () => void
 }) {
-  // Show booking CTA if lead is qualified and next action is booking-related
+  // Show booking CTA if lead is qualified AND next action explicitly suggests booking
   if (!qualification?.is_qualified) return null
-  if (!qualification.next_action?.toLowerCase().includes('book')) return null
+
+  // Only show if next_action explicitly mentions "book", "schedule", or "appointment"
+  const nextAction = qualification.next_action?.toLowerCase() || ''
+  const isBookingAction = nextAction.includes('book') ||
+                          nextAction.includes('schedule') ||
+                          nextAction.includes('appointment')
+
+  if (!isBookingAction) return null
 
   return (
     <Card className="mx-4 mb-3 border-purple-200 bg-purple-50">
@@ -245,10 +253,10 @@ function BookingCTA({
           </div>
           <div className="flex-1">
             <h4 className="font-semibold text-sm text-gray-900 mb-1">
-              Ready to book?
+              Ready to schedule?
             </h4>
             <p className="text-xs text-gray-600 mb-3">
-              We'd love to help you get started. Click below to schedule your appointment.
+              If you'd like, I can help you book an appointment.
             </p>
             <Button
               size="sm"
@@ -259,6 +267,14 @@ function BookingCTA({
               <ExternalLink className="h-3 w-3 ml-2" />
             </Button>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onDismiss}
+            className="h-6 w-6 p-0 hover:bg-purple-100"
+          >
+            <X className="h-4 w-4 text-gray-500" />
+          </Button>
         </div>
       </CardContent>
     </Card>
@@ -270,7 +286,7 @@ function BookingCTA({
 // =============================================================================
 
 function ChatWidget() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true) // Auto-open on page load
   const [messages, setMessages] = useState<Message[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -279,6 +295,7 @@ function ChatWidget() {
   const [showQuickReplies, setShowQuickReplies] = useState(false)
   const [currentQuickReplies, setCurrentQuickReplies] = useState<string[]>([])
   const [hasShownGreeting, setHasShownGreeting] = useState(false)
+  const [showBookingCTA, setShowBookingCTA] = useState(true)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
@@ -311,24 +328,21 @@ function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  // Auto-greeting after 5 seconds for new visitors
+  // Auto-greeting immediately for new visitors (proactive assistant)
   useEffect(() => {
     if (!hasShownGreeting && messages.length === 0) {
-      const timer = setTimeout(() => {
-        const greetingMessage: Message = {
-          id: generateId(),
-          role: 'agent',
-          content: INITIAL_GREETING,
-          timestamp: new Date(),
-          suggested_actions: ['View Services', 'Check Availability', 'Pricing Info', 'Book Now']
-        }
-        setMessages([greetingMessage])
-        setCurrentQuickReplies(greetingMessage.suggested_actions || [])
-        setShowQuickReplies(true)
-        setHasShownGreeting(true)
-      }, AUTO_GREETING_DELAY)
-
-      return () => clearTimeout(timer)
+      // Show greeting immediately - no delay
+      const greetingMessage: Message = {
+        id: generateId(),
+        role: 'agent',
+        content: INITIAL_GREETING,
+        timestamp: new Date(),
+        suggested_actions: ['View Services', 'Check Pricing', 'Learn More', 'Get Help']
+      }
+      setMessages([greetingMessage])
+      setCurrentQuickReplies(greetingMessage.suggested_actions || [])
+      setShowQuickReplies(true)
+      setHasShownGreeting(true)
     }
   }, [hasShownGreeting, messages.length])
 
@@ -501,11 +515,12 @@ function ChatWidget() {
         </div>
       </ScrollArea>
 
-      {/* Booking CTA (shown when qualified) */}
-      {latestQualification && (
+      {/* Booking CTA (shown when qualified AND not dismissed) */}
+      {showBookingCTA && latestQualification && (
         <BookingCTA
           message={messages[messages.length - 1]?.content || ''}
           qualification={latestQualification}
+          onDismiss={() => setShowBookingCTA(false)}
         />
       )}
 
